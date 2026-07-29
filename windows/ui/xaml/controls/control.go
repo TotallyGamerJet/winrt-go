@@ -62,11 +62,25 @@ func (impl *Control) SetBorderThickness(value xaml.Thickness) error {
 	return v.SetBorderThickness(value)
 }
 
+func (impl *Control) GetBorderBrush() (*media.Brush, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiControl))
+	defer itf.Release()
+	v := (*iControl)(unsafe.Pointer(itf))
+	return v.GetBorderBrush()
+}
+
 func (impl *Control) SetBorderBrush(value *media.Brush) error {
 	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiControl))
 	defer itf.Release()
 	v := (*iControl)(unsafe.Pointer(itf))
 	return v.SetBorderBrush(value)
+}
+
+func (impl *Control) Focus(value xaml.FocusState) (bool, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiControl))
+	defer itf.Release()
+	v := (*iControl)(unsafe.Pointer(itf))
+	return v.Focus(value)
 }
 
 func (impl *Control) SetCornerRadius(value xaml.CornerRadius) error {
@@ -217,6 +231,21 @@ func (v *iControl) SetBorderThickness(value xaml.Thickness) error {
 	return nil
 }
 
+func (v *iControl) GetBorderBrush() (*media.Brush, error) {
+	var out *media.Brush
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().GetBorderBrush,
+		uintptr(unsafe.Pointer(v)),    // this
+		uintptr(unsafe.Pointer(&out)), // out media.Brush
+	)
+
+	if hr != 0 {
+		return nil, ole.NewError(hr)
+	}
+
+	return out, nil
+}
+
 func (v *iControl) SetBorderBrush(value *media.Brush) error {
 	hr, _, _ := syscall.SyscallN(
 		v.VTable().SetBorderBrush,
@@ -229,6 +258,22 @@ func (v *iControl) SetBorderBrush(value *media.Brush) error {
 	}
 
 	return nil
+}
+
+func (v *iControl) Focus(value xaml.FocusState) (bool, error) {
+	var out bool
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().Focus,
+		uintptr(unsafe.Pointer(v)),    // this
+		uintptr(value),                // in xaml.FocusState
+		uintptr(unsafe.Pointer(&out)), // out bool
+	)
+
+	if hr != 0 {
+		return false, ole.NewError(hr)
+	}
+
+	return out, nil
 }
 
 const GUIDiControl2 string = "43e0fe10-14ec-427e-8c57-dee60df60aa8"
