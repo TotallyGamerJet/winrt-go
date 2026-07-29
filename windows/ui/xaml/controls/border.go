@@ -28,6 +28,20 @@ func NewBorder() (*Border, error) {
 	return (*Border)(unsafe.Pointer(inspectable)), nil
 }
 
+func (impl *Border) SetBorderBrush(value *media.Brush) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiBorder))
+	defer itf.Release()
+	v := (*iBorder)(unsafe.Pointer(itf))
+	return v.SetBorderBrush(value)
+}
+
+func (impl *Border) SetBorderThickness(value xaml.Thickness) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiBorder))
+	defer itf.Release()
+	v := (*iBorder)(unsafe.Pointer(itf))
+	return v.SetBorderThickness(value)
+}
+
 func (impl *Border) SetBackground(value *media.Brush) error {
 	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiBorder))
 	defer itf.Release()
@@ -84,6 +98,34 @@ type iBorderVtbl struct {
 
 func (v *iBorder) VTable() *iBorderVtbl {
 	return (*iBorderVtbl)(unsafe.Pointer(v.RawVTable))
+}
+
+func (v *iBorder) SetBorderBrush(value *media.Brush) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().SetBorderBrush,
+		uintptr(unsafe.Pointer(v)),     // this
+		uintptr(unsafe.Pointer(value)), // in media.Brush
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
+func (v *iBorder) SetBorderThickness(value xaml.Thickness) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().SetBorderThickness,
+		uintptr(unsafe.Pointer(v)),      // this
+		uintptr(unsafe.Pointer(&value)), // in xaml.Thickness
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
 }
 
 func (v *iBorder) SetBackground(value *media.Brush) error {
