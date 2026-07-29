@@ -110,9 +110,14 @@ package winrt
 
 // xaml core
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.UIElement -method-filter put_Opacity -method-filter put_Visibility -method-filter !*
-//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.FrameworkElement -method-filter put_RequestedTheme -method-filter put_Margin -method-filter put_Width -method-filter put_Height -method-filter put_MinWidth -method-filter put_MinHeight -method-filter put_Name -method-filter put_HorizontalAlignment -method-filter put_VerticalAlignment -method-filter FindName -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.FrameworkElement -method-filter put_MaxWidth -method-filter put_MaxHeight -method-filter get_Resources -method-filter put_RequestedTheme -method-filter put_Margin -method-filter put_Width -method-filter put_Height -method-filter put_MinWidth -method-filter put_MinHeight -method-filter put_Name -method-filter put_HorizontalAlignment -method-filter put_VerticalAlignment -method-filter FindName -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Thickness
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.CornerRadius
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.ResourceDictionary -method-filter !*
+
+// resource dictionaries are IMap<Object, Object>, and string keys are boxed
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Foundation.Collections.IMap`2 -method-filter Insert -method-filter Lookup -method-filter HasKey -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Foundation.PropertyValue -method-filter CreateString -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.RoutedEventHandler
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.RoutedEventArgs -method-filter !*
 

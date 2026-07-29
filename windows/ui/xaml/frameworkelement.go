@@ -18,6 +18,13 @@ type FrameworkElement struct {
 	ole.IUnknown
 }
 
+func (impl *FrameworkElement) GetResources() (*ResourceDictionary, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiFrameworkElement))
+	defer itf.Release()
+	v := (*iFrameworkElement)(unsafe.Pointer(itf))
+	return v.GetResources()
+}
+
 func (impl *FrameworkElement) SetWidth(value float64) error {
 	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiFrameworkElement))
 	defer itf.Release()
@@ -39,11 +46,25 @@ func (impl *FrameworkElement) SetMinWidth(value float64) error {
 	return v.SetMinWidth(value)
 }
 
+func (impl *FrameworkElement) SetMaxWidth(value float64) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiFrameworkElement))
+	defer itf.Release()
+	v := (*iFrameworkElement)(unsafe.Pointer(itf))
+	return v.SetMaxWidth(value)
+}
+
 func (impl *FrameworkElement) SetMinHeight(value float64) error {
 	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiFrameworkElement))
 	defer itf.Release()
 	v := (*iFrameworkElement)(unsafe.Pointer(itf))
 	return v.SetMinHeight(value)
+}
+
+func (impl *FrameworkElement) SetMaxHeight(value float64) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiFrameworkElement))
+	defer itf.Release()
+	v := (*iFrameworkElement)(unsafe.Pointer(itf))
+	return v.SetMaxHeight(value)
 }
 
 func (impl *FrameworkElement) SetHorizontalAlignment(value HorizontalAlignment) error {
@@ -151,6 +172,21 @@ func (v *iFrameworkElement) VTable() *iFrameworkElementVtbl {
 	return (*iFrameworkElementVtbl)(unsafe.Pointer(v.RawVTable))
 }
 
+func (v *iFrameworkElement) GetResources() (*ResourceDictionary, error) {
+	var out *ResourceDictionary
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().GetResources,
+		uintptr(unsafe.Pointer(v)),    // this
+		uintptr(unsafe.Pointer(&out)), // out ResourceDictionary
+	)
+
+	if hr != 0 {
+		return nil, ole.NewError(hr)
+	}
+
+	return out, nil
+}
+
 func (v *iFrameworkElement) SetWidth(value float64) error {
 	hr, _, _ := syscall.SyscallN(
 		v.VTable().SetWidth,
@@ -193,9 +229,37 @@ func (v *iFrameworkElement) SetMinWidth(value float64) error {
 	return nil
 }
 
+func (v *iFrameworkElement) SetMaxWidth(value float64) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().SetMaxWidth,
+		uintptr(unsafe.Pointer(v)), // this
+		uintptr(value),             // in float64
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
 func (v *iFrameworkElement) SetMinHeight(value float64) error {
 	hr, _, _ := syscall.SyscallN(
 		v.VTable().SetMinHeight,
+		uintptr(unsafe.Pointer(v)), // this
+		uintptr(value),             // in float64
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
+func (v *iFrameworkElement) SetMaxHeight(value float64) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().SetMaxHeight,
 		uintptr(unsafe.Pointer(v)), // this
 		uintptr(value),             // in float64
 	)
