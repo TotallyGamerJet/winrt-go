@@ -10,6 +10,7 @@ import (
 	"unsafe"
 
 	"github.com/go-ole/go-ole"
+	"github.com/saltosystems/winrt-go/windows/foundation"
 )
 
 const SignatureUIElement string = "rc(Windows.UI.Xaml.UIElement;{676d0be9-b65c-41c6-ba40-58cf87f201c1})"
@@ -30,6 +31,20 @@ func (impl *UIElement) SetVisibility(value Visibility) error {
 	defer itf.Release()
 	v := (*iUIElement)(unsafe.Pointer(itf))
 	return v.SetVisibility(value)
+}
+
+func (impl *UIElement) AddLostFocus(handler *RoutedEventHandler) (foundation.EventRegistrationToken, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiUIElement))
+	defer itf.Release()
+	v := (*iUIElement)(unsafe.Pointer(itf))
+	return v.AddLostFocus(handler)
+}
+
+func (impl *UIElement) RemoveLostFocus(token foundation.EventRegistrationToken) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiUIElement))
+	defer itf.Release()
+	v := (*iUIElement)(unsafe.Pointer(itf))
+	return v.RemoveLostFocus(token)
 }
 
 const GUIDiUIElement string = "676d0be9-b65c-41c6-ba40-58cf87f201c1"
@@ -163,6 +178,36 @@ func (v *iUIElement) SetVisibility(value Visibility) error {
 		v.VTable().SetVisibility,
 		uintptr(unsafe.Pointer(v)), // this
 		uintptr(value),             // in Visibility
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
+func (v *iUIElement) AddLostFocus(handler *RoutedEventHandler) (foundation.EventRegistrationToken, error) {
+	var out foundation.EventRegistrationToken
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().AddLostFocus,
+		uintptr(unsafe.Pointer(v)),       // this
+		uintptr(unsafe.Pointer(handler)), // in RoutedEventHandler
+		uintptr(unsafe.Pointer(&out)),    // out foundation.EventRegistrationToken
+	)
+
+	if hr != 0 {
+		return foundation.EventRegistrationToken{}, ole.NewError(hr)
+	}
+
+	return out, nil
+}
+
+func (v *iUIElement) RemoveLostFocus(token foundation.EventRegistrationToken) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().RemoveLostFocus,
+		uintptr(unsafe.Pointer(v)),                  // this
+		uintptr(*(*uint64)(unsafe.Pointer(&token))), // in foundation.EventRegistrationToken
 	)
 
 	if hr != 0 {

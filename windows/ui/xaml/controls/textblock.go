@@ -10,6 +10,7 @@ import (
 	"unsafe"
 
 	"github.com/go-ole/go-ole"
+	"github.com/saltosystems/winrt-go/windows/ui/xaml"
 	"github.com/saltosystems/winrt-go/windows/ui/xaml/media"
 )
 
@@ -39,6 +40,13 @@ func (impl *TextBlock) SetForeground(value *media.Brush) error {
 	defer itf.Release()
 	v := (*iTextBlock)(unsafe.Pointer(itf))
 	return v.SetForeground(value)
+}
+
+func (impl *TextBlock) SetTextWrapping(value xaml.TextWrapping) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiTextBlock))
+	defer itf.Release()
+	v := (*iTextBlock)(unsafe.Pointer(itf))
+	return v.SetTextWrapping(value)
 }
 
 func (impl *TextBlock) SetText(value string) error {
@@ -127,6 +135,20 @@ func (v *iTextBlock) SetForeground(value *media.Brush) error {
 		v.VTable().SetForeground,
 		uintptr(unsafe.Pointer(v)),     // this
 		uintptr(unsafe.Pointer(value)), // in media.Brush
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
+func (v *iTextBlock) SetTextWrapping(value xaml.TextWrapping) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().SetTextWrapping,
+		uintptr(unsafe.Pointer(v)), // this
+		uintptr(value),             // in xaml.TextWrapping
 	)
 
 	if hr != 0 {
