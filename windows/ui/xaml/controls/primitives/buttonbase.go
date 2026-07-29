@@ -79,8 +79,8 @@ func (v *iButtonBase) AddClick(handler *xaml.RoutedEventHandler) (foundation.Eve
 func (v *iButtonBase) RemoveClick(token foundation.EventRegistrationToken) error {
 	hr, _, _ := syscall.SyscallN(
 		v.VTable().RemoveClick,
-		uintptr(unsafe.Pointer(v)),      // this
-		uintptr(unsafe.Pointer(&token)), // in foundation.EventRegistrationToken
+		uintptr(unsafe.Pointer(v)),                  // this
+		uintptr(*(*uint64)(unsafe.Pointer(&token))), // in foundation.EventRegistrationToken
 	)
 
 	if hr != 0 {

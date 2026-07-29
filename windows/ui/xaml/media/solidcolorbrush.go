@@ -55,8 +55,8 @@ func (v *iSolidColorBrush) VTable() *iSolidColorBrushVtbl {
 func (v *iSolidColorBrush) SetColor(value ui.Color) error {
 	hr, _, _ := syscall.SyscallN(
 		v.VTable().SetColor,
-		uintptr(unsafe.Pointer(v)),      // this
-		uintptr(unsafe.Pointer(&value)), // in ui.Color
+		uintptr(unsafe.Pointer(v)),                  // this
+		uintptr(*(*uint32)(unsafe.Pointer(&value))), // in ui.Color
 	)
 
 	if hr != 0 {
