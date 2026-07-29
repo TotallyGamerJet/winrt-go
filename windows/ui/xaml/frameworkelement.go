@@ -81,6 +81,13 @@ func (impl *FrameworkElement) FindName(name string) (unsafe.Pointer, error) {
 	return v.FindName(name)
 }
 
+func (impl *FrameworkElement) SetRequestedTheme(value ElementTheme) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiFrameworkElement2))
+	defer itf.Release()
+	v := (*iFrameworkElement2)(unsafe.Pointer(itf))
+	return v.SetRequestedTheme(value)
+}
+
 const GUIDiFrameworkElement string = "a391d09b-4a99-4b7c-9d8d-6fa5d01f6fbf"
 const SignatureiFrameworkElement string = "{a391d09b-4a99-4b7c-9d8d-6fa5d01f6fbf}"
 
@@ -299,6 +306,20 @@ type iFrameworkElement2Vtbl struct {
 
 func (v *iFrameworkElement2) VTable() *iFrameworkElement2Vtbl {
 	return (*iFrameworkElement2Vtbl)(unsafe.Pointer(v.RawVTable))
+}
+
+func (v *iFrameworkElement2) SetRequestedTheme(value ElementTheme) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().SetRequestedTheme,
+		uintptr(unsafe.Pointer(v)), // this
+		uintptr(value),             // in ElementTheme
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
 }
 
 const GUIDiFrameworkElement3 string = "c81c2720-5c52-4bbe-a199-2b1e34f00f70"

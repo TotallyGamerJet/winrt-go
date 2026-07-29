@@ -110,7 +110,7 @@ package winrt
 
 // xaml core
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.UIElement -method-filter put_Opacity -method-filter put_Visibility -method-filter !*
-//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.FrameworkElement -method-filter put_Margin -method-filter put_Width -method-filter put_Height -method-filter put_MinWidth -method-filter put_MinHeight -method-filter put_Name -method-filter put_HorizontalAlignment -method-filter put_VerticalAlignment -method-filter FindName -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.FrameworkElement -method-filter put_RequestedTheme -method-filter put_Margin -method-filter put_Width -method-filter put_Height -method-filter put_MinWidth -method-filter put_MinHeight -method-filter put_Name -method-filter put_HorizontalAlignment -method-filter put_VerticalAlignment -method-filter FindName -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Thickness
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.CornerRadius
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.RoutedEventHandler
@@ -120,6 +120,7 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.HorizontalAlignment
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.VerticalAlignment
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Visibility
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.ElementTheme
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Orientation
 
 // xaml layout
