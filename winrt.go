@@ -144,6 +144,7 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.UIElementCollection -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Grid -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.StackPanel -method-filter put_Orientation -method-filter put_Spacing -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.VariableSizedWrapGrid -method-filter put_Orientation -method-filter put_ItemWidth -method-filter put_ItemHeight -method-filter put_MaximumRowsOrColumns -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Border -method-filter put_BorderBrush -method-filter put_BorderThickness -method-filter put_Child -method-filter put_Background -method-filter put_Padding -method-filter put_CornerRadius -method-filter !*
 
 // xaml controls
