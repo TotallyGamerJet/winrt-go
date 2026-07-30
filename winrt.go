@@ -169,6 +169,9 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Shapes.Shape -method-filter put_Fill -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Shapes.Ellipse -method-filter !*
 
+// accessibility: an icon with no text needs a name for screen readers
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Automation.AutomationProperties -method-filter SetName -method-filter !*
+
 // tooltips
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.ToolTipService -method-filter SetToolTip -method-filter !*
 
