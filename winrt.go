@@ -118,6 +118,7 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Hosting.DesktopWindowXamlSource -method-filter put_Content -method-filter Close -method-filter !*
 
 // xaml core
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.DependencyObject -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.UIElement -method-filter add_LostFocus -method-filter remove_LostFocus -method-filter put_Opacity -method-filter put_Visibility -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.FrameworkElement -method-filter put_MaxWidth -method-filter put_MaxHeight -method-filter get_Resources -method-filter put_RequestedTheme -method-filter put_Margin -method-filter put_Width -method-filter put_Height -method-filter put_MinWidth -method-filter put_MinHeight -method-filter put_Name -method-filter put_HorizontalAlignment -method-filter put_VerticalAlignment -method-filter FindName -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Thickness
