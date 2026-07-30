@@ -158,6 +158,18 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.FontIcon -method-filter put_Glyph -method-filter put_FontSize -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.PasswordBox -method-filter get_Password -method-filter put_Password -method-filter put_PlaceholderText -method-filter !*
 
+// images and shapes, for artwork and the circular avatar
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Foundation.Uri -method-filter CreateUri -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.Imaging.BitmapImage -method-filter put_UriSource -method-filter put_DecodePixelWidth -method-filter put_DecodePixelHeight -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.ImageBrush -method-filter put_ImageSource -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.TileBrush -method-filter put_Stretch -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.Stretch
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Shapes.Shape -method-filter put_Fill -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Shapes.Ellipse -method-filter !*
+
+// tooltips
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.ToolTipService -method-filter SetToolTip -method-filter !*
+
 // xaml brushes
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.Brush -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.SolidColorBrush -method-filter put_Color -method-filter !*
