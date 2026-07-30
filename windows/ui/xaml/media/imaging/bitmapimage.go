@@ -11,6 +11,7 @@ import (
 
 	"github.com/go-ole/go-ole"
 	"github.com/saltosystems/winrt-go/windows/foundation"
+	"github.com/saltosystems/winrt-go/windows/ui/xaml"
 )
 
 const SignatureBitmapImage string = "rc(Windows.UI.Xaml.Media.Imaging.BitmapImage;{31af3271-e3b4-442d-a341-4c0226b2725b})"
@@ -46,6 +47,34 @@ func (impl *BitmapImage) SetDecodePixelHeight(value int32) error {
 	defer itf.Release()
 	v := (*iBitmapImage)(unsafe.Pointer(itf))
 	return v.SetDecodePixelHeight(value)
+}
+
+func (impl *BitmapImage) AddImageOpened(handler *xaml.RoutedEventHandler) (foundation.EventRegistrationToken, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiBitmapImage))
+	defer itf.Release()
+	v := (*iBitmapImage)(unsafe.Pointer(itf))
+	return v.AddImageOpened(handler)
+}
+
+func (impl *BitmapImage) RemoveImageOpened(token foundation.EventRegistrationToken) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiBitmapImage))
+	defer itf.Release()
+	v := (*iBitmapImage)(unsafe.Pointer(itf))
+	return v.RemoveImageOpened(token)
+}
+
+func (impl *BitmapImage) AddImageFailed(handler *xaml.ExceptionRoutedEventHandler) (foundation.EventRegistrationToken, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiBitmapImage))
+	defer itf.Release()
+	v := (*iBitmapImage)(unsafe.Pointer(itf))
+	return v.AddImageFailed(handler)
+}
+
+func (impl *BitmapImage) RemoveImageFailed(token foundation.EventRegistrationToken) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiBitmapImage))
+	defer itf.Release()
+	v := (*iBitmapImage)(unsafe.Pointer(itf))
+	return v.RemoveImageFailed(token)
 }
 
 const GUIDiBitmapImage string = "31af3271-e3b4-442d-a341-4c0226b2725b"
@@ -111,6 +140,66 @@ func (v *iBitmapImage) SetDecodePixelHeight(value int32) error {
 		v.VTable().SetDecodePixelHeight,
 		uintptr(unsafe.Pointer(v)), // this
 		uintptr(value),             // in int32
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
+func (v *iBitmapImage) AddImageOpened(handler *xaml.RoutedEventHandler) (foundation.EventRegistrationToken, error) {
+	var out foundation.EventRegistrationToken
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().AddImageOpened,
+		uintptr(unsafe.Pointer(v)),       // this
+		uintptr(unsafe.Pointer(handler)), // in xaml.RoutedEventHandler
+		uintptr(unsafe.Pointer(&out)),    // out foundation.EventRegistrationToken
+	)
+
+	if hr != 0 {
+		return foundation.EventRegistrationToken{}, ole.NewError(hr)
+	}
+
+	return out, nil
+}
+
+func (v *iBitmapImage) RemoveImageOpened(token foundation.EventRegistrationToken) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().RemoveImageOpened,
+		uintptr(unsafe.Pointer(v)),                  // this
+		uintptr(*(*uint64)(unsafe.Pointer(&token))), // in foundation.EventRegistrationToken
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
+func (v *iBitmapImage) AddImageFailed(handler *xaml.ExceptionRoutedEventHandler) (foundation.EventRegistrationToken, error) {
+	var out foundation.EventRegistrationToken
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().AddImageFailed,
+		uintptr(unsafe.Pointer(v)),       // this
+		uintptr(unsafe.Pointer(handler)), // in xaml.ExceptionRoutedEventHandler
+		uintptr(unsafe.Pointer(&out)),    // out foundation.EventRegistrationToken
+	)
+
+	if hr != 0 {
+		return foundation.EventRegistrationToken{}, ole.NewError(hr)
+	}
+
+	return out, nil
+}
+
+func (v *iBitmapImage) RemoveImageFailed(token foundation.EventRegistrationToken) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().RemoveImageFailed,
+		uintptr(unsafe.Pointer(v)),                  // this
+		uintptr(*(*uint64)(unsafe.Pointer(&token))), // in foundation.EventRegistrationToken
 	)
 
 	if hr != 0 {

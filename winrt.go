@@ -162,7 +162,9 @@ package winrt
 // images and shapes, for artwork and the circular avatar
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Foundation.Uri -method-filter CreateUri -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.ImageSource -method-filter !*
-//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.Imaging.BitmapImage -method-filter put_UriSource -method-filter put_DecodePixelWidth -method-filter put_DecodePixelHeight -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.Imaging.BitmapImage -method-filter put_UriSource -method-filter put_DecodePixelWidth -method-filter put_DecodePixelHeight -method-filter add_ImageFailed -method-filter remove_ImageFailed -method-filter add_ImageOpened -method-filter remove_ImageOpened -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.ExceptionRoutedEventArgs -method-filter get_ErrorMessage -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.ExceptionRoutedEventHandler
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.ImageBrush -method-filter put_ImageSource -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.TileBrush -method-filter put_Stretch -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.Stretch
