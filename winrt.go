@@ -104,6 +104,11 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Control.SessionsChangedEventArgs
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Control.TimelinePropertiesChangedEventArgs
 
+// dispatcher queue, for getting back onto the UI thread
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.System.DispatcherQueueController -method-filter get_DispatcherQueue -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.System.DispatcherQueue -method-filter TryEnqueue -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.System.DispatcherQueueHandler
+
 // xaml hosting
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Hosting.WindowsXamlManager
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Hosting.DesktopWindowXamlSource -method-filter put_Content -method-filter Close -method-filter !*
