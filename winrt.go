@@ -178,7 +178,11 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.ToolTipService -method-filter SetToolTip -method-filter !*
 
 // flyouts: a popup anchored to the control that opened it
-//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Primitives.FlyoutBase -method-filter put_Placement -method-filter Hide -method-filter !*
+//
+// Closed is needed as well as Hide: closing is animated, and anything that
+// rebuilds the screen has to wait until the popup has actually gone.
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Foundation.EventHandler`1
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Primitives.FlyoutBase -method-filter put_Placement -method-filter Hide -method-filter add_Closed -method-filter remove_Closed -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Primitives.FlyoutPlacementMode
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Flyout -method-filter put_Content -method-filter !*
 

@@ -10,6 +10,7 @@ import (
 	"unsafe"
 
 	"github.com/go-ole/go-ole"
+	"github.com/saltosystems/winrt-go/windows/foundation"
 )
 
 const SignatureFlyoutBase string = "rc(Windows.UI.Xaml.Controls.Primitives.FlyoutBase;{723eea0b-d12e-430d-a9f0-9bb32bbf9913})"
@@ -23,6 +24,20 @@ func (impl *FlyoutBase) SetPlacement(value FlyoutPlacementMode) error {
 	defer itf.Release()
 	v := (*iFlyoutBase)(unsafe.Pointer(itf))
 	return v.SetPlacement(value)
+}
+
+func (impl *FlyoutBase) AddClosed(handler *foundation.EventHandler) (foundation.EventRegistrationToken, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiFlyoutBase))
+	defer itf.Release()
+	v := (*iFlyoutBase)(unsafe.Pointer(itf))
+	return v.AddClosed(handler)
+}
+
+func (impl *FlyoutBase) RemoveClosed(token foundation.EventRegistrationToken) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiFlyoutBase))
+	defer itf.Release()
+	v := (*iFlyoutBase)(unsafe.Pointer(itf))
+	return v.RemoveClosed(token)
 }
 
 func (impl *FlyoutBase) Hide() error {
@@ -63,6 +78,36 @@ func (v *iFlyoutBase) SetPlacement(value FlyoutPlacementMode) error {
 		v.VTable().SetPlacement,
 		uintptr(unsafe.Pointer(v)), // this
 		uintptr(value),             // in FlyoutPlacementMode
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
+func (v *iFlyoutBase) AddClosed(handler *foundation.EventHandler) (foundation.EventRegistrationToken, error) {
+	var out foundation.EventRegistrationToken
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().AddClosed,
+		uintptr(unsafe.Pointer(v)),       // this
+		uintptr(unsafe.Pointer(handler)), // in foundation.EventHandler
+		uintptr(unsafe.Pointer(&out)),    // out foundation.EventRegistrationToken
+	)
+
+	if hr != 0 {
+		return foundation.EventRegistrationToken{}, ole.NewError(hr)
+	}
+
+	return out, nil
+}
+
+func (v *iFlyoutBase) RemoveClosed(token foundation.EventRegistrationToken) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().RemoveClosed,
+		uintptr(unsafe.Pointer(v)),                  // this
+		uintptr(*(*uint64)(unsafe.Pointer(&token))), // in foundation.EventRegistrationToken
 	)
 
 	if hr != 0 {
