@@ -6,15 +6,24 @@
 package controls
 
 import (
+	"syscall"
 	"unsafe"
 
 	"github.com/go-ole/go-ole"
+	"github.com/saltosystems/winrt-go/windows/ui/xaml/controls/primitives"
 )
 
 const SignatureButton string = "rc(Windows.UI.Xaml.Controls.Button;{280335ae-5570-46c7-8e0b-602be71229a2})"
 
 type Button struct {
 	ole.IUnknown
+}
+
+func (impl *Button) SetFlyout(value *primitives.FlyoutBase) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiButtonWithFlyout))
+	defer itf.Release()
+	v := (*iButtonWithFlyout)(unsafe.Pointer(itf))
+	return v.SetFlyout(value)
 }
 
 const GUIDiButton string = "280335ae-5570-46c7-8e0b-602be71229a2"
@@ -48,4 +57,18 @@ type iButtonWithFlyoutVtbl struct {
 
 func (v *iButtonWithFlyout) VTable() *iButtonWithFlyoutVtbl {
 	return (*iButtonWithFlyoutVtbl)(unsafe.Pointer(v.RawVTable))
+}
+
+func (v *iButtonWithFlyout) SetFlyout(value *primitives.FlyoutBase) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().SetFlyout,
+		uintptr(unsafe.Pointer(v)),     // this
+		uintptr(unsafe.Pointer(value)), // in primitives.FlyoutBase
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
 }

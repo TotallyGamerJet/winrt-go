@@ -153,7 +153,7 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Control -method-filter get_BorderBrush -method-filter Focus -method-filter put_Padding -method-filter put_FontSize -method-filter put_Foreground -method-filter put_Background -method-filter put_CornerRadius -method-filter put_BorderThickness -method-filter put_BorderBrush -method-filter put_IsEnabled -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.ContentControl -method-filter put_Content -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Primitives.ButtonBase -method-filter add_Click -method-filter remove_Click -method-filter !*
-//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Button -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Button -method-filter put_Flyout -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.TextBox -method-filter put_Text -method-filter get_Text -method-filter put_PlaceholderText -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.IconElement -method-filter put_Foreground -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.FontIcon -method-filter put_Glyph -method-filter put_FontSize -method-filter !*
@@ -176,6 +176,11 @@ package winrt
 
 // tooltips
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.ToolTipService -method-filter SetToolTip -method-filter !*
+
+// flyouts: a popup anchored to the control that opened it
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Primitives.FlyoutBase -method-filter put_Placement -method-filter Hide -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Primitives.FlyoutPlacementMode
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Flyout -method-filter put_Content -method-filter !*
 
 // xaml brushes
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.Brush -method-filter !*
