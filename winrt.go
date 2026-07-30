@@ -104,6 +104,10 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Control.SessionsChangedEventArgs
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Control.TimelinePropertiesChangedEventArgs
 
+// credential locker
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Security.Credentials.PasswordVault -method-filter Add -method-filter Remove -method-filter Retrieve -method-filter FindAllByResource -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Security.Credentials.PasswordCredential -method-filter CreatePasswordCredential -method-filter get_Resource -method-filter get_UserName -method-filter get_Password -method-filter RetrievePassword -method-filter !*
+
 // dispatcher queue, for getting back onto the UI thread
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.System.DispatcherQueueController -method-filter get_DispatcherQueue -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.System.DispatcherQueue -method-filter TryEnqueue -method-filter !*
