@@ -34,6 +34,13 @@ func (impl *MediaPlayerElement) SetAreTransportControlsEnabled(value bool) error
 	return v.SetAreTransportControlsEnabled(value)
 }
 
+func (impl *MediaPlayerElement) SetPosterSource(value *media.ImageSource) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiMediaPlayerElement))
+	defer itf.Release()
+	v := (*iMediaPlayerElement)(unsafe.Pointer(itf))
+	return v.SetPosterSource(value)
+}
+
 func (impl *MediaPlayerElement) SetStretch(value media.Stretch) error {
 	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiMediaPlayerElement))
 	defer itf.Release()
@@ -106,6 +113,20 @@ func (v *iMediaPlayerElement) SetAreTransportControlsEnabled(value bool) error {
 		v.VTable().SetAreTransportControlsEnabled,
 		uintptr(unsafe.Pointer(v)),                // this
 		uintptr(*(*byte)(unsafe.Pointer(&value))), // in bool
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
+func (v *iMediaPlayerElement) SetPosterSource(value *media.ImageSource) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().SetPosterSource,
+		uintptr(unsafe.Pointer(v)),     // this
+		uintptr(unsafe.Pointer(value)), // in media.ImageSource
 	)
 
 	if hr != 0 {

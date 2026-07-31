@@ -194,7 +194,7 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Core.MediaSource -method-filter CreateFromUri -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Playback.MediaPlaybackSession -method-filter get_Position -method-filter put_Position -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Playback.MediaPlayer -method-filter Play -method-filter Pause -method-filter get_PlaybackSession -method-filter Close -method-filter !*
-//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.MediaPlayerElement -method-filter put_Source -method-filter put_AutoPlay -method-filter put_AreTransportControlsEnabled -method-filter put_Stretch -method-filter get_MediaPlayer -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.MediaPlayerElement -method-filter put_Source -method-filter put_AutoPlay -method-filter put_AreTransportControlsEnabled -method-filter put_Stretch -method-filter put_PosterSource -method-filter get_MediaPlayer -method-filter !*
 
 // xaml brushes
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Media.Brush -method-filter !*
