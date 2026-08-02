@@ -19,6 +19,13 @@ type MediaSource struct {
 	ole.IUnknown
 }
 
+func (impl *MediaSource) Close() error {
+	itf := impl.MustQueryInterface(ole.NewGUID(foundation.GUIDIClosable))
+	defer itf.Release()
+	v := (*foundation.IClosable)(unsafe.Pointer(itf))
+	return v.Close()
+}
+
 const GUIDiMediaSource2 string = "2eb61048-655f-4c37-b813-b4e45dfa0abe"
 const SignatureiMediaSource2 string = "{2eb61048-655f-4c37-b813-b4e45dfa0abe}"
 
