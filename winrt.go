@@ -148,6 +148,11 @@ package winrt
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.VariableSizedWrapGrid -method-filter put_Orientation -method-filter put_ItemWidth -method-filter put_ItemHeight -method-filter put_MaximumRowsOrColumns -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Border -method-filter put_BorderBrush -method-filter put_BorderThickness -method-filter put_Child -method-filter put_Background -method-filter put_Padding -method-filter put_CornerRadius -method-filter !*
 
+// scrolling, for a row of cards wider than the window
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.ScrollBarVisibility
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.ScrollMode
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.ScrollViewer -method-filter put_HorizontalScrollBarVisibility -method-filter put_VerticalScrollBarVisibility -method-filter put_HorizontalScrollMode -method-filter put_VerticalScrollMode -method-filter !*
+
 // xaml controls
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.TextBlock -method-filter put_TextWrapping -method-filter put_Text -method-filter put_FontSize -method-filter put_Foreground -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.Control -method-filter get_BorderBrush -method-filter Focus -method-filter put_Padding -method-filter put_FontSize -method-filter put_Foreground -method-filter put_Background -method-filter put_CornerRadius -method-filter put_BorderThickness -method-filter put_BorderBrush -method-filter put_IsEnabled -method-filter !*
