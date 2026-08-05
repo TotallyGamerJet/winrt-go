@@ -33,6 +33,20 @@ func (impl *MediaPlaybackSession) SetPosition(value foundation.TimeSpan) error {
 	return v.SetPosition(value)
 }
 
+func (impl *MediaPlaybackSession) GetNaturalVideoHeight() (uint32, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiMediaPlaybackSession))
+	defer itf.Release()
+	v := (*iMediaPlaybackSession)(unsafe.Pointer(itf))
+	return v.GetNaturalVideoHeight()
+}
+
+func (impl *MediaPlaybackSession) GetNaturalVideoWidth() (uint32, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiMediaPlaybackSession))
+	defer itf.Release()
+	v := (*iMediaPlaybackSession)(unsafe.Pointer(itf))
+	return v.GetNaturalVideoWidth()
+}
+
 const GUIDiMediaPlaybackSession string = "c32b683d-0407-41ba-8946-8b345a5a5435"
 const SignatureiMediaPlaybackSession string = "{c32b683d-0407-41ba-8946-8b345a5a5435}"
 
@@ -114,6 +128,36 @@ func (v *iMediaPlaybackSession) SetPosition(value foundation.TimeSpan) error {
 	}
 
 	return nil
+}
+
+func (v *iMediaPlaybackSession) GetNaturalVideoHeight() (uint32, error) {
+	var out uint32
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().GetNaturalVideoHeight,
+		uintptr(unsafe.Pointer(v)),    // this
+		uintptr(unsafe.Pointer(&out)), // out uint32
+	)
+
+	if hr != 0 {
+		return 0, ole.NewError(hr)
+	}
+
+	return out, nil
+}
+
+func (v *iMediaPlaybackSession) GetNaturalVideoWidth() (uint32, error) {
+	var out uint32
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().GetNaturalVideoWidth,
+		uintptr(unsafe.Pointer(v)),    // this
+		uintptr(unsafe.Pointer(&out)), // out uint32
+	)
+
+	if hr != 0 {
+		return 0, ole.NewError(hr)
+	}
+
+	return out, nil
 }
 
 const GUIDiMediaPlaybackSession2 string = "f8ba7c79-1fc8-4097-ad70-c0fa18cc0050"

@@ -197,8 +197,12 @@ package winrt
 // are what say what to play, where to start it, and how to stop it.
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Playback.IMediaPlaybackSource -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Core.MediaSource -method-filter CreateFromUri -method-filter Close -method-filter !*
-//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Playback.MediaPlaybackSession -method-filter get_Position -method-filter put_Position -method-filter !*
-//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Playback.MediaPlayer -method-filter Play -method-filter Pause -method-filter get_PlaybackSession -method-filter Close -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Playback.MediaPlaybackSession -method-filter get_Position -method-filter put_Position -method-filter get_NaturalVideoHeight -method-filter get_NaturalVideoWidth -method-filter !*
+// MediaFailed is how a codec the machine cannot decode reports itself, and
+// MediaOpened is when there is finally a track list to look at.
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Playback.MediaPlayerError
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Playback.MediaPlayerFailedEventArgs -method-filter get_Error -method-filter get_ErrorMessage -method-filter !*
+//go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.Media.Playback.MediaPlayer -method-filter Play -method-filter Pause -method-filter get_PlaybackSession -method-filter Close -method-filter add_MediaFailed -method-filter remove_MediaFailed -method-filter add_MediaOpened -method-filter remove_MediaOpened -method-filter !*
 //go:generate go run github.com/saltosystems/winrt-go/cmd/winrt-go-gen -debug -class Windows.UI.Xaml.Controls.MediaPlayerElement -method-filter put_Source -method-filter put_AutoPlay -method-filter put_AreTransportControlsEnabled -method-filter put_Stretch -method-filter put_PosterSource -method-filter get_MediaPlayer -method-filter !*
 
 // xaml brushes

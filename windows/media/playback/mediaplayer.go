@@ -27,6 +27,34 @@ func NewMediaPlayer() (*MediaPlayer, error) {
 	return (*MediaPlayer)(unsafe.Pointer(inspectable)), nil
 }
 
+func (impl *MediaPlayer) AddMediaOpened(value *foundation.TypedEventHandler) (foundation.EventRegistrationToken, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiMediaPlayer))
+	defer itf.Release()
+	v := (*iMediaPlayer)(unsafe.Pointer(itf))
+	return v.AddMediaOpened(value)
+}
+
+func (impl *MediaPlayer) RemoveMediaOpened(token foundation.EventRegistrationToken) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiMediaPlayer))
+	defer itf.Release()
+	v := (*iMediaPlayer)(unsafe.Pointer(itf))
+	return v.RemoveMediaOpened(token)
+}
+
+func (impl *MediaPlayer) AddMediaFailed(value *foundation.TypedEventHandler) (foundation.EventRegistrationToken, error) {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiMediaPlayer))
+	defer itf.Release()
+	v := (*iMediaPlayer)(unsafe.Pointer(itf))
+	return v.AddMediaFailed(value)
+}
+
+func (impl *MediaPlayer) RemoveMediaFailed(token foundation.EventRegistrationToken) error {
+	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiMediaPlayer))
+	defer itf.Release()
+	v := (*iMediaPlayer)(unsafe.Pointer(itf))
+	return v.RemoveMediaFailed(token)
+}
+
 func (impl *MediaPlayer) Play() error {
 	itf := impl.MustQueryInterface(ole.NewGUID(GUIDiMediaPlayer))
 	defer itf.Release()
@@ -111,6 +139,66 @@ type iMediaPlayerVtbl struct {
 
 func (v *iMediaPlayer) VTable() *iMediaPlayerVtbl {
 	return (*iMediaPlayerVtbl)(unsafe.Pointer(v.RawVTable))
+}
+
+func (v *iMediaPlayer) AddMediaOpened(value *foundation.TypedEventHandler) (foundation.EventRegistrationToken, error) {
+	var out foundation.EventRegistrationToken
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().AddMediaOpened,
+		uintptr(unsafe.Pointer(v)),     // this
+		uintptr(unsafe.Pointer(value)), // in foundation.TypedEventHandler
+		uintptr(unsafe.Pointer(&out)),  // out foundation.EventRegistrationToken
+	)
+
+	if hr != 0 {
+		return foundation.EventRegistrationToken{}, ole.NewError(hr)
+	}
+
+	return out, nil
+}
+
+func (v *iMediaPlayer) RemoveMediaOpened(token foundation.EventRegistrationToken) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().RemoveMediaOpened,
+		uintptr(unsafe.Pointer(v)),                  // this
+		uintptr(*(*uint64)(unsafe.Pointer(&token))), // in foundation.EventRegistrationToken
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
+}
+
+func (v *iMediaPlayer) AddMediaFailed(value *foundation.TypedEventHandler) (foundation.EventRegistrationToken, error) {
+	var out foundation.EventRegistrationToken
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().AddMediaFailed,
+		uintptr(unsafe.Pointer(v)),     // this
+		uintptr(unsafe.Pointer(value)), // in foundation.TypedEventHandler
+		uintptr(unsafe.Pointer(&out)),  // out foundation.EventRegistrationToken
+	)
+
+	if hr != 0 {
+		return foundation.EventRegistrationToken{}, ole.NewError(hr)
+	}
+
+	return out, nil
+}
+
+func (v *iMediaPlayer) RemoveMediaFailed(token foundation.EventRegistrationToken) error {
+	hr, _, _ := syscall.SyscallN(
+		v.VTable().RemoveMediaFailed,
+		uintptr(unsafe.Pointer(v)),                  // this
+		uintptr(*(*uint64)(unsafe.Pointer(&token))), // in foundation.EventRegistrationToken
+	)
+
+	if hr != 0 {
+		return ole.NewError(hr)
+	}
+
+	return nil
 }
 
 func (v *iMediaPlayer) Play() error {
